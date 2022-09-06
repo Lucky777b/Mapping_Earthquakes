@@ -32,17 +32,44 @@ let map = L.map('mapid', {
 // Pass our map layers into our layers control and add the layers control to the map.
 L.control.layers(baseMaps).addTo(map);
 
-// (how to make code easier to read by creating object with style parameters for the lines and assigned to variable myStyle)
-// Create a style for the lines. 
-let myStyle = {
-    color: "black",
-    fillColor: "orange",
-    weight: 1
-};
-
 // Retrieve the earthquake GeoJSON data. 
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data){
+    // This function returns the style data for each of the earthquakes we plot on
+    // the map. We pass the magnitude of the earthquake into a function
+    // to calculate the radius.
+    // pass the argument 'feature' to reference each object's features
+    function styleInfo(feature) {
+        return {
+        opacity: 1,
+        fillOpacity: 1,
+        fillColor: "#ffae42",
+        color: "#000000",
+        //In the getRadius() function, we'll pass the magnitude argument that will reference the feature.properties.mag in the styleInfo() function.
+        radius: getRadius(feature.properties.mag),
+        stroke: true,
+        weight: 0.5
+        };
+    };
+    // This function determines the radius of the earthquake marker based on its magnitude.
+    // Earthquakes with a magnitude of 0 will be plotted with a radius of 1.
+    function getRadius(magnitude) {
+        if (magnitude === 0) {
+        return 1;
+        }
+        return magnitude * 4;
+    };
+  
     // Creating a GeoJSON layer with the retrieved data.
-    L.geoJSON(data).addTo(map);
-});
+    L.geoJSON(data, {
+    // We turn each feature into a circleMarker on the map.
+    pointToLayer: function(feature, latlng) {
+                console.log(data);
+                return L.circleMarker(latlng);
+            },
+         // We set the style for each circleMarker using our styleInfo function.
+        style: styleInfo
+        }).addTo(map);
+    });
+
+
 
