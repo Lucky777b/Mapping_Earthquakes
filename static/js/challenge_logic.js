@@ -112,7 +112,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
      // We create a popup for each circleMarker to display the magnitude and location of the earthquake
      //  after the marker has been created and styled.
      onEachFeature: function(feature, layer) {
-      layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
+      layer.bindPopup("<h3><b> Magnitude: " + feature.properties.mag + "</b></h3><hr><h3> Location: " + feature.properties.place + "</h3>");
     }
   }).addTo(allEarthquakes);
 
@@ -166,7 +166,7 @@ legend.onAdd = function() {
         };
       }, 
       onEachFeature: function(feature, layer){
-        layer.bindPopup("<h3> Plate Boundary Name: " + feature.properties.Name + "</h3>");
+        layer.bindPopup("<h3><b> Plate Boundary Name: " + feature.properties.Name + "</h3></b>");
       }
     }).addTo(allTectonics);
     allTectonics.addTo(map);
@@ -223,7 +223,7 @@ d3.json(earthquakeData).then(function(data) {
     },
     style: styleInfo,
     onEachFeature: function(feature,layer) {
-      layer.bindPopup("<h3>Magnitude " + feature.properties.mag + "</h3><hr><h3> Location:" + feature.properties.place + "</h3>");
+      layer.bindPopup("<h3><b>Magnitude: " + feature.properties.mag + "</b></h3><hr><h3> Location: " + feature.properties.place + "</h3>");
     }
   }).addTo(majorEQ);
   
