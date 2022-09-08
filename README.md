@@ -18,3 +18,4 @@
 ## Results 
 
 Here is an example of how the earthquake map will look once webpage is initially opened: 
+
