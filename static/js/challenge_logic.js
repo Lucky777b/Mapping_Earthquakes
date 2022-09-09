@@ -53,6 +53,7 @@ let overlays = {
 // layers are visible.
 L.control.layers(baseMaps, overlays).addTo(map);
 
+
 // Retrieve the earthquake GeoJSON data.
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data) {
 
@@ -104,7 +105,6 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
   L.geoJson(data, {
     	// We turn each feature into a circleMarker on the map.
     	pointToLayer: function(feature, latlng) {
-      		console.log(data);
       		return L.circleMarker(latlng);
         },
       // We set the style for each circleMarker using our styleInfo function.
@@ -151,12 +151,19 @@ legend.onAdd = function() {
   // Finally, we our legend to the map.
   legend.addTo(map);
 
-
-  // 3. Use d3.json to make a call to get our Tectonic Plate geoJSON data.
-  let tectonicData = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
-
-  d3.json(tectonicData).then(function(data) {
-    console.log(data);
+  /*
+  map.on('baselayerchange', function (feature) {
+    console.log('base layer has been changed');
+    baseMaps.setStyle({
+      fillColor: "purple",
+      fillOpacity: 0.8,
+      weight: 0.5
+  }).addTo(allTectonics);
+  allTectonics.addTo(map);
+     
+  });
+// previous method tried to change fault line colors
+   d3.json(tectonicData).then(function(data) {
     // Create GeoJSON layer with the retrieved data.
     L.geoJSON(data, {
       style: function(feature) {
@@ -165,6 +172,47 @@ legend.onAdd = function() {
           case baseMaps.streets: return {color: "red"};
         };
       }, 
+      onEachFeature: function(feature, layer){
+        layer.bindPopup("<h3><b> Plate Boundary Name: " + feature.properties.Name + "</h3></b>");
+      }
+    }).addTo(allTectonics);
+    allTectonics.addTo(map);
+    
+  });
+});
+
+  */
+let tectonicData = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
+
+
+  let tstyle = map.on('baselayerchange', function(feature) {
+      console.log('base layer has been changed');
+      return {
+        fillColor: tecStyle(L.overlays),
+        fillOpacity: 0.8,
+        weight: 0.5
+    };
+  });
+
+  function tecStyle(feature) {
+    if (feature === baseMaps["Streets"]) { return "purple";
+    }
+    if (feature === baseMaps["Satellite"]) {
+    return "red";
+    }
+    if (feature === baseMaps["Night Navigation"]) { 
+    return "red";
+    }
+  };
+
+  // 3. Use d3.json to make a call to get our Tectonic Plate geoJSON data.
+  //let tectonicData = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json";
+
+  d3.json(tectonicData).then(function(data) {
+    
+    // Create GeoJSON layer with the retrieved data.
+    L.geoJSON(data, {
+      style: tstyle,
       onEachFeature: function(feature, layer){
         layer.bindPopup("<h3><b> Plate Boundary Name: " + feature.properties.Name + "</h3></b>");
       }
@@ -218,7 +266,6 @@ d3.json(earthquakeData).then(function(data) {
   //  after the marker has been created and styled.
   L.geoJson(data, {
     pointToLayer: function(feature, latlng) {
-      console.log(data);
       return L.circleMarker(latlng);
     },
     style: styleInfo,
