@@ -46,11 +46,23 @@ I have also provided examples of how the map will look when in 'Night Navigation
 
 Fig. E) 
 
-![Night Navigation](https://github.com/Lucky777b/Mapping_Earthquakes/blob/main/Earthquake_Challenge/static/images/night_navigation.png)
+![Night Navigation](https://github.com/Lucky777b/Mapping_Earthquakes/blob/main/Earthquake_Challenge/static/images/allEQ_night_nav.png)
 
 The satellite layer also includes how the map looks when the user clicks on one of the earthquake markers, in which a pop-up comes up that provides information about the magnitude of that earthquake and the location of where it occurred. 
 
 Fig. F) 
 
 ![Satellite](https://github.com/Lucky777b/Mapping_Earthquakes/blob/main/Earthquake_Challenge/static/images/allEQ_satellite.png)
+
+Here is an example of how the map will look if the user decides they would only like to see the tectonic plate fault line, but not the earthquake markers (Fig. G):
+
+Fig. G) 
+
+![tectonicFaultLine](https://github.com/Lucky777b/Mapping_Earthquakes/blob/main/Earthquake_Challenge/static/images/tectonicPlates_satellite.png)
+
+I have also provided an example of what one would see if they tried to click on the tectonic plate fault line boundary lines within the map, it will provide the name of what that tectonic fault line is named, as shown below (Fig. H):
+
+Fig. H) 
+
+![faultName](https://github.com/Lucky777b/Mapping_Earthquakes/blob/main/Earthquake_Challenge/static/images/plate_boundary_name.png)
 
